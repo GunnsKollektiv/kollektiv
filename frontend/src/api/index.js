@@ -2,7 +2,7 @@ const SERVER_HOST = "http://127.0.0.1:8000/"
 
 function _fetch(method, kwargs) {
 
-    const { url, body, token = null, callback, errorCallback } = kwargs
+    let { url, body, token = localStorage.getItem('token'), callback, errorCallback } = kwargs
     let headers;
 
     if (method === 'POST' || method === 'PUT') {
@@ -25,8 +25,12 @@ function _fetch(method, kwargs) {
     })
         .then(response => {
             if (response.status >= 400 && response.status < 600) {
-                errorCallback(method + " " + response.status + " error")
+                if (errorCallback !== undefined)
+                    errorCallback(method + " " + response.status + " error")
                 throw Error(method + " " + response.status + " error")
+            }
+            if (response.status === 204) {
+                return "No content"
             }
             return response.json()
         })

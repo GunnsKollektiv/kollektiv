@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
-import { Container, Button, Form, Alert } from 'react-bootstrap'
-import { post } from '../../api'
+import React, { Component } from 'react';
+import { Alert, Button, Card, Form } from 'react-bootstrap';
+import { post } from '../../api';
+import './style.css'
 
 export default class Login extends Component {
 
@@ -37,39 +38,45 @@ export default class Login extends Component {
 
     render() {
         return (
-            <Container>
-                <Form onSubmit={this.handleSubmit}>
-                    <Form.Group>
-                        <Form.Control
-                            type="email"
-                            name="email"
-                            placeholder="E-postadresse"
-                            required
-                            onChange={e => this.setState({ email: e.target.value })}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Control
-                            type="password"
-                            name="password"
-                            placeholder="Passord"
-                            required
-                            onChange={e => this.setState({ password: e.target.value })}
-                        />
-                    </Form.Group>
-                    <Form.Group>
-                        <Button type="submit" style={{ width: 150 }}>
-                            {this.state.register ? "Registrer deg" : "Logg inn"}
-                        </Button>
-                        <Button variant="link" onClick={() => this.setState({ register: !this.state.register, message: null })}>{this.state.register ? "Allerede registrert?" : "Registrer deg"}</Button>
-                    </Form.Group>
-                    <Form.Group>
-                        {this.showMessage()}
-                    </Form.Group>
-
-
-                </Form>
-            </Container>
+            <Card className="login-card">
+                <Card.Body>
+                    <Card.Title>{this.state.register ? "Registrer ny bruker" : "Logg inn"}</Card.Title>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Group>
+                            <Form.Control
+                                type="email"
+                                name="email"
+                                placeholder="E-postadresse"
+                                required
+                                onChange={e => this.setState({ email: e.target.value })}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control
+                                type="password"
+                                name="password"
+                                placeholder="Passord"
+                                required
+                                onChange={e => this.setState({ password: e.target.value })}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Button type="submit" style={{ width: 150 }}>
+                                {this.state.register ? "Registrer deg" : "Logg inn"}
+                            </Button>
+                            <Button
+                                variant="link"
+                                onClick={() => this.setState({ register: !this.state.register, message: null })}
+                            >
+                                {this.state.register ? "Allerede registrert?" : "Registrer deg"}
+                            </Button>
+                        </Form.Group>
+                        <Form.Group>
+                            {this.showMessage()}
+                        </Form.Group>
+                    </Form>
+                </Card.Body>
+            </Card>
         )
     }
 }

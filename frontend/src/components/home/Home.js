@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Container } from 'react-bootstrap'
 
 export default class Home extends Component {
+
     render() {
         return (
             <div>
@@ -9,7 +10,7 @@ export default class Home extends Component {
                     Logget inn som {this.props.user}
                 </Container>
                 <Container>
-                   <Button onClick={() => this.props.updateUser(null, null)}>Logg ut</Button>
+                   <Button onClick={() => this.props.handleLogout()}>Logg ut</Button>
                 </Container>
             </div>
         )

@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
-import { get } from './api';
+import { get, post } from './api';
 import './App.css';
 import Login from './components/auth/Login';
 import Home from './components/home/Home';
@@ -22,7 +22,6 @@ class App extends Component {
       this.setState({ token: localStorage.getItem('token') })
       get({
         url: 'api/auth/user/',
-        token: localStorage.getItem('token'),
         callback: data => this.setState({ user: data.email, loading: false }),
         errorCallback: error => this.setState({ loading: false })
       })
@@ -36,21 +35,28 @@ class App extends Component {
     localStorage.setItem('token', token);
   }
 
-  render() {
+  handleLogout = () => {
+    post({
+      url: 'api/auth/logout/',
+      callback: data => this.updateUser(null, null)
+    })
+  }
 
+  getContent = () => {
     if (this.state.loading) {
       return null;
     }
-
     if (!this.state.user) {
-      return <div className="App">
-        <Login updateUser={this.updateUser} />
-      </div>
+      return <Login updateUser={this.updateUser} />
     }
+    return <Home handleLogout={this.handleLogout} user={this.state.user} />
+  }
+
+  render() {
 
     return (
       <div className="App">
-        <Home updateUser={this.updateUser} user={this.state.user} />
+        {this.getContent()}
       </div>
     );
   }
