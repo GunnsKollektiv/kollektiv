@@ -68,7 +68,9 @@ export default class Login extends Component {
                                 variant="link"
                                 onClick={() => this.setState({ register: !this.state.register, message: null })}
                             >
-                                {this.state.register ? "Allerede registrert?" : "Registrer deg"}
+                                <small>
+                                    {this.state.register ? "Allerede registrert?" : "Registrer deg"}
+                                </small>
                             </Button>
                         </Form.Group>
                         <Form.Group>

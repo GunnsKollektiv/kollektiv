@@ -1,0 +1,9 @@
+.navbar {
+    color: white;
+    height: 60;
+    background: rgb(40, 44, 52)
+}
+
+.navbar-collapse {
+    margin-left: auto;
+}

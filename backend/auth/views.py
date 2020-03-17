@@ -20,6 +20,9 @@ class UserCreateAPI(generics.CreateAPIView):
         user.set_password(serializer.validated_data['password'])
         user.save()
 
+#TODO: add token to register response
+
+
 
 class UserLoginAPI(generics.GenericAPIView):
     """ Endpoint for logging in a user """

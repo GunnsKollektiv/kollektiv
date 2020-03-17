@@ -4,6 +4,7 @@ import { get, post } from './api';
 import './App.css';
 import Login from './components/auth/Login';
 import Home from './components/home/Home';
+import NavbarWrapper from './components/navbar/NavbarWrapper'
 
 
 class App extends Component {
@@ -49,14 +50,17 @@ class App extends Component {
     if (!this.state.user) {
       return <Login updateUser={this.updateUser} />
     }
-    return <Home handleLogout={this.handleLogout} user={this.state.user} />
+    return <Home user={this.state.user} />
   }
 
   render() {
 
     return (
       <div className="App">
-        {this.getContent()}
+        <NavbarWrapper user={this.state.user} handleLogout={this.handleLogout} />
+        <div className="main-content">
+          {this.getContent()}
+        </div>
       </div>
     );
   }
