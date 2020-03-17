@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
 import { Alert, Button, Card, Form } from 'react-bootstrap';
 import { post } from '../../api';
-import './style.css'
+import './style.css';
+import {
+    useHistory,
+    useLocation
+} from 'react-router-dom';
 
-export default class Login extends Component {
+function withMyHook(Component) {
+    return function WrappedComponent(props) {
+        let history = useHistory();
+        let location = useLocation();
+        return <Component {...props} history={history} location={location} />;
+    }
+}
+
+class Login extends Component {
 
     constructor(props) {
         super(props);
@@ -23,11 +35,17 @@ export default class Login extends Component {
                 email: this.state.email,
                 password: this.state.password
             },
-            callback: data => this.props.updateUser(data.email, data.token),
+            callback: data => this.handleLogin(data),
             errorCallback: error => this.setState({
                 message: this.state.register ? "En bruker med denne e-postadressen er allerede registrert" : "Feil e-postadresse og/eller passord"
             })
         })
+    }
+
+    handleLogin = data => {
+        let { from } = this.props.location.state || { from: { pathname: "/" } };
+        this.props.updateUser(data.email, data.token);
+        this.props.history.replace(from);
     }
 
     showMessage = () => {
@@ -37,6 +55,7 @@ export default class Login extends Component {
     }
 
     render() {
+
         return (
             <Card className="login-card">
                 <Card.Body>
@@ -82,3 +101,5 @@ export default class Login extends Component {
         )
     }
 }
+
+export default Login = withMyHook(Login);

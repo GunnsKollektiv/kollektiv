@@ -5,7 +5,13 @@ import './App.css';
 import Login from './components/auth/Login';
 import Home from './components/home/Home';
 import NavbarWrapper from './components/navbar/NavbarWrapper'
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from 'react-router-dom';
 
 class App extends Component {
 
@@ -43,27 +49,54 @@ class App extends Component {
     })
   }
 
-  getContent = () => {
-    if (this.state.loading) {
-      return null;
-    }
-    if (!this.state.user) {
-      return <Login updateUser={this.updateUser} />
-    }
-    return <Home user={this.state.user} />
-  }
-
   render() {
 
-    return (
-      <div className="App">
-        <NavbarWrapper user={this.state.user} handleLogout={this.handleLogout} />
-        <div className="main-content">
-          {this.getContent()}
-        </div>
-      </div>
-    );
+    if (!this.state.loading) {
+      return (
+
+
+        <Router>
+          <div className="App">
+
+            <NavbarWrapper user={this.state.user} handleLogout={this.handleLogout} />
+
+            <div className="main-content">
+              <Switch>
+                <Route path="/login">
+                  {this.state.user === null ? <Login updateUser={this.updateUser} /> : <Redirect to='/' />}
+                </Route>
+                <PrivateRoute path="/" isAuthenticated={this.state.user !== null}>
+                  <Home user={this.state.user} />
+                </PrivateRoute>
+              </Switch>
+            </div>
+
+          </div>
+        </Router>
+      );
+    }
+    return null;
   }
+}
+
+function PrivateRoute({ children, isAuthenticated, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        isAuthenticated ? (
+          children
+        ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location }
+              }}
+            />
+          )
+      }
+    />
+  );
 }
 
 export default App;
