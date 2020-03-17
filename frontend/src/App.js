@@ -4,7 +4,7 @@ import { get, post } from './api';
 import './App.css';
 import Login from './components/auth/Login';
 import Home from './components/home/Home';
-import NavbarWrapper from './components/navbar/NavbarWrapper'
+import Header from './components/header/Header'
 import {
   BrowserRouter as Router,
   Switch,
@@ -25,6 +25,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    // check if user already has active token
     if (localStorage.getItem('token')) {
       this.setState({ token: localStorage.getItem('token') })
       get({
@@ -53,21 +54,22 @@ class App extends Component {
 
     if (!this.state.loading) {
       return (
-
-
         <Router>
           <div className="App">
 
-            <NavbarWrapper user={this.state.user} handleLogout={this.handleLogout} />
+            <Header user={this.state.user} handleLogout={this.handleLogout} />
 
             <div className="main-content">
               <Switch>
-                <Route path="/login">
+                <Route exact path="/login">
                   {this.state.user === null ? <Login updateUser={this.updateUser} /> : <Redirect to='/' />}
                 </Route>
-                <PrivateRoute path="/" isAuthenticated={this.state.user !== null}>
+                <PrivateRoute exact path="/" isAuthenticated={this.state.user !== null}>
                   <Home user={this.state.user} />
                 </PrivateRoute>
+                <Route path="/">
+                  <Redirect to="/" />
+                </Route>
               </Switch>
             </div>
 

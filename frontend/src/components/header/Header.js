@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { Button, Nav, Navbar } from 'react-bootstrap'
 import './style.css'
 
-export default class NavbarWrapper extends Component {
+export default class Header extends Component {
 
     renderUserInfo = () => {
         if (this.props.user) {

@@ -5,7 +5,7 @@ from .models import User
 from .serializers import UserSerializer, UserLoginSerializer
 
 
-class UserCreateAPI(generics.CreateAPIView):
+class UserCreateAPI(generics.GenericAPIView):
     """ Endpoint for creating a new user """
     serializer_class = UserSerializer
 
@@ -14,14 +14,17 @@ class UserCreateAPI(generics.CreateAPIView):
     ]
     authentication_classes = []
 
-    def perform_create(self, serializer):
+    def post(self, *args, **kwargs):
+        serializer = self.get_serializer(data=self.request.data)
         serializer.is_valid()
         user = User(email=serializer.validated_data['email'])
         user.set_password(serializer.validated_data['password'])
         user.save()
 
-#TODO: add token to register response
-
+        return Response({
+            'email': user.email,
+            'token': AuthToken.objects.create(user)[1]
+        })
 
 
 class UserLoginAPI(generics.GenericAPIView):
