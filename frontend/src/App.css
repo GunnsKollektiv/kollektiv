@@ -1,4 +1,8 @@
+.App {
+    font-family: 'Open Sans', sans-serif;
+}
+
 .main-content {
-    max-width: 400px;
+    max-width: 1200px;
     margin: auto;
 }

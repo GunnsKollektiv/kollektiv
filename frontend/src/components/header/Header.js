@@ -4,15 +4,23 @@ import './style.css'
 
 export default class Header extends Component {
 
-    renderUserInfo = () => {
+    renderNavContent = () => {
         if (this.props.user) {
             return (
                 <Fragment>
-                    <span style={{ padding: "0px 20px" }}>Velkommen, {this.props.user}</span>
-                    <Button
-                        variant="outline-light"
-                        onClick={() => this.props.handleLogout()}
-                    >Logg ut</Button>
+                    <Navbar.Toggle />
+                    <Navbar.Collapse>
+                        <Nav className="mr-auto">
+                            {/* Links here */}
+                        </Nav>
+                        <span style={{ padding: "0px 20px" }}>
+                            Velkommen, {this.props.user.first_name || this.props.user.email}
+                        </span>
+                        <Button
+                            variant="outline-light"
+                            onClick={() => this.props.handleLogout()}
+                        >Logg ut</Button>
+                    </Navbar.Collapse>
                 </Fragment>
             )
         }
@@ -21,16 +29,12 @@ export default class Header extends Component {
 
     render() {
         return (
-            <Navbar variant="dark" expand="lg">
-                <Navbar.Brand>Kollektiv</Navbar.Brand>
-                <Navbar.Toggle />
-                <Navbar.Collapse>
-                    <Nav className="mr-auto">
-                        
-                    </Nav>
-                    {this.renderUserInfo()}
-                </Navbar.Collapse>
-            </Navbar>
+            <div className="header">
+                <Navbar variant="dark" expand="lg">
+                    <Navbar.Brand><h2>Kollektiv</h2></Navbar.Brand>
+                    {this.renderNavContent()}
+                </Navbar>
+            </div>
         )
     }
 }

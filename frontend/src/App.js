@@ -1,17 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { get, post } from './api';
 import './App.css';
 import Login from './components/auth/Login';
+import Header from './components/header/Header';
 import Home from './components/home/Home';
-import Header from './components/header/Header'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom';
 
 class App extends Component {
 
@@ -30,7 +24,7 @@ class App extends Component {
       this.setState({ token: localStorage.getItem('token') })
       get({
         url: 'api/auth/user/',
-        callback: data => this.setState({ user: data.email, loading: false }),
+        callback: data => this.setState({ user: data, loading: false }),
         errorCallback: error => this.setState({ loading: false })
       })
     } else {
@@ -38,8 +32,8 @@ class App extends Component {
     }
   }
 
-  updateUser = (email, token) => {
-    this.setState({ user: email, token: token })
+  updateUser = (user, token) => {
+    this.setState({ user: user, token: token })
     localStorage.setItem('token', token);
   }
 

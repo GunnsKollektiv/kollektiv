@@ -16,14 +16,19 @@ class UserCreateAPI(generics.GenericAPIView):
 
     def post(self, *args, **kwargs):
         serializer = self.get_serializer(data=self.request.data)
-        serializer.is_valid()
-        user = User(email=serializer.validated_data['email'])
-        user.set_password(serializer.validated_data['password'])
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+        password = data['password']
+        del data['password']
+        user = User(**data)
+        user.set_password(password)
         user.save()
 
         return Response({
             'email': user.email,
-            'token': AuthToken.objects.create(user)[1]
+            'token': AuthToken.objects.create(user)[1],
+            'first_name': user.first_name,
+            'last_name': user.last_name
         })
 
 
@@ -43,7 +48,9 @@ class UserLoginAPI(generics.GenericAPIView):
 
         return Response({
             'email': user.email,
-            'token': AuthToken.objects.create(user)[1]
+            'token': AuthToken.objects.create(user)[1],
+            'first_name': user.first_name,
+            'last_name': user.last_name
         })
 
 
