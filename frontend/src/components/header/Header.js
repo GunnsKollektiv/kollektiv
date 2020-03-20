@@ -9,6 +9,7 @@ export default class Header extends Component {
         super(props);
         this.state = {
             expanded: false,
+            redirectHome: false,
         }
     }
 
@@ -25,8 +26,8 @@ export default class Header extends Component {
                     <Navbar.Toggle onClick={() => this.setState({ expanded: this.state.expanded ? false : "expanded" })} />
                     <Navbar.Collapse>
                         <Nav className="mr-auto" onSelect={this.closeNav}>
-                            <NavLink onClick={() => setTimeout(() => this.setState({ expanded: false}), 150)} exact className="nav-link" to="/">Hjem</NavLink>
-                            <NavLink onClick={() => this.setState({ expanded: false})} exact className="nav-link" to="/lists">Lister</NavLink>
+                            <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/">Hjem</NavLink>
+                            <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/lists">Lister</NavLink>
                         </Nav>
                         <span style={{ padding: "0px 20px" }}>
                             Velkommen, {this.props.user.first_name || this.props.user.email}
@@ -45,8 +46,8 @@ export default class Header extends Component {
     render() {
         return (
             <div className="header">
-                <Navbar variant="dark" expand="lg" expanded={this.state.expanded}>
-                    <Navbar.Brand><h2>Kollektiv</h2></Navbar.Brand>
+                <Navbar fixed="top" variant="dark" expand="lg" expanded={this.state.expanded}>
+                    <Navbar.Brand className="brand" onClick={() => this.props.handleRedirect("/")}><h2>Kollektiv</h2></Navbar.Brand>
                     {this.renderNavContent()}
                 </Navbar>
             </div>

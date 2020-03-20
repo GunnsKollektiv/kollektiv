@@ -30,7 +30,7 @@ class App extends Component {
   }
 
   checkToken = () => {
-    // check if user already has active token
+    // check if user has an active token in local storage
     if (localStorage.getItem('token')) {
       this.setState({ token: localStorage.getItem('token') })
       get({
@@ -55,13 +55,17 @@ class App extends Component {
     })
   }
 
+  handleRedirect = pathname => {
+    this.props.history.push(pathname)
+  }
+
   render() {
 
     if (!this.state.loading) {
       return (
           <div className="App">
 
-            <Header user={this.state.user} handleLogout={this.handleLogout} />
+            <Header handleRedirect={this.handleRedirect} user={this.state.user} handleLogout={this.handleLogout} />
 
             <div className="main-content">
               <Switch>
