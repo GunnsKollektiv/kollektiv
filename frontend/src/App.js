@@ -7,6 +7,8 @@ import Login from './components/auth/Login';
 import Header from './components/header/Header';
 import Home from './components/home/Home';
 import Lists from './components/lists/Lists';
+import Error404 from './components/error/Error404';
+import Group from './components/group/Group';
 
 class App extends Component {
 
@@ -63,28 +65,31 @@ class App extends Component {
 
     if (!this.state.loading) {
       return (
-          <div className="App">
+        <div className="App">
 
-            <Header handleRedirect={this.handleRedirect} user={this.state.user} handleLogout={this.handleLogout} />
+          <Header handleRedirect={this.handleRedirect} user={this.state.user} handleLogout={this.handleLogout} />
 
-            <div className="main-content">
-              <Switch>
-                <Route exact path="/login">
-                  {this.state.user === null ? <Login updateUser={this.updateUser} /> : <Redirect to='/' />}
-                </Route>
-                <PrivateRoute exact path="/" isAuthenticated={this.state.user !== null}>
-                  <Home user={this.state.user} />
-                </PrivateRoute>
-                <PrivateRoute exact path="/lists" isAuthenticated={this.state.user !== null}>
-                  <Lists user={this.state.user} />
-                </PrivateRoute>
-                <Route path="/">
-                  <Redirect to="/" />
-                </Route>
-              </Switch>
-            </div>
-
+          <div className="main-content">
+            <Switch>
+              <Route exact path="/login">
+                {this.state.user === null ? <Login updateUser={this.updateUser} /> : <Redirect to='/' />}
+              </Route>
+              <PrivateRoute exact path="/" isAuthenticated={this.state.user !== null}>
+                <Home user={this.state.user} />
+              </PrivateRoute>
+              <PrivateRoute exact path="/lists" isAuthenticated={this.state.user !== null}>
+                <Lists user={this.state.user} />
+              </PrivateRoute>
+              <PrivateRoute exact path="/group" isAuthenticated={this.state.user !== null}>
+                <Group user={this.state.user} />
+              </PrivateRoute>
+              <Route path="*">
+                <Error404 />
+              </Route>
+            </Switch>
           </div>
+
+        </div>
       );
     }
     return "Loading...";

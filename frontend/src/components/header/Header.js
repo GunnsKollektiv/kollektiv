@@ -27,6 +27,7 @@ export default class Header extends Component {
                     <Navbar.Collapse>
                         <Nav className="mr-auto" onSelect={this.closeNav}>
                             <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/">Hjem</NavLink>
+                            <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/group">Mitt kollektiv</NavLink>
                             <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/lists">Lister</NavLink>
                         </Nav>
                         <span style={{ padding: "0px 20px" }}>
