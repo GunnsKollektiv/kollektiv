@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Form, Button, Alert, Modal } from 'react-bootstrap'
+import React, { Component } from 'react';
+import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import { post } from '../../api';
 
 export default class AddMemberModal extends Component {
@@ -43,13 +43,13 @@ export default class AddMemberModal extends Component {
     }
 
     handleClose = () => {
-        this.setState({message: null, errorMessage: false})
+        this.setState({ message: null, errorMessage: false })
         this.props.handleClose();
     }
 
     render() {
         return (
-            <Modal centered show={this.props.show} onHide={this.handleClose}>
+            <Modal show={this.props.show} onHide={this.handleClose}>
                 <Form onSubmit={this.handleSubmit}>
                     <Modal.Header closeButton>
                         <Modal.Title>Legg til medlem</Modal.Title>
@@ -68,7 +68,7 @@ export default class AddMemberModal extends Component {
                         <Form.Group>
                             {this.showMessage()}
                         </Form.Group>
-                        <Form.Group style={{float: "right"}}>
+                        <Form.Group style={{ float: "right" }}>
                             <Button type="submit">
                                 Legg til
                         </Button>

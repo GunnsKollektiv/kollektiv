@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Form, Button, Modal } from 'react-bootstrap'
+import React, { Component } from 'react';
+import { Button, Form, Modal } from 'react-bootstrap';
 import { post } from '../../api';
 
 
@@ -30,7 +30,7 @@ export default class LeaveGroupModal extends Component {
 
     render() {
         return (
-            <Modal centered show={this.props.show} onHide={this.handleClose}>
+            <Modal show={this.props.show} onHide={this.handleClose}>
                 <Form onSubmit={this.handleSubmit}>
                     <Modal.Header closeButton>
                         <Modal.Title>Forlat kollektivet</Modal.Title>

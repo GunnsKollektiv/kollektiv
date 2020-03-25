@@ -1,63 +1,13 @@
-import React, { Component } from 'react';
-import { Card, Col, Dropdown, DropdownButton, Row } from 'react-bootstrap';
-import AddMemberModal from './AddMemberModal';
-import './style.scss';
-import LeaveGroupModal from './LeaveGroupModal';
-import settingsLogo from './settings-24px.svg'
+import React, { Component } from 'react'
+import AddGroup from './AddGroup'
+import GroupCard from './GroupCard'
 
-export default class Group extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            showAddMember: false,
-            showLeaveGroup: false
-        }
-    }
-
-    toggleShowAddMember = () => this.setState({ showAddMember: !this.state.showAddMember })
-    toggleShowLeaveGroup = () => this.setState({ showLeaveGroup: !this.state.showLeaveGroup })
+export default class Groups extends Component {
 
     render() {
-        if (!this.props.group)
-            return "Du er ikke i et kollektiv"
-
         return (
             <div className="group-container">
-                <Card>
-                    <Card.Body>
-                        <Card.Title>
-                            <Row>
-                                <Col className="header-col">
-                                    <h2>{this.props.group.name}</h2>
-                                </Col>
-                                <Col className="dropdown-col">
-                                    <Dropdown alignRight>
-                                        <Dropdown.Toggle>
-                                            <img src={settingsLogo} alt="settings" />
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item onClick={this.toggleShowAddMember}>Legg til medlem</Dropdown.Item>
-                                            <Dropdown.Divider />
-                                            <Dropdown.Item onClick={this.toggleShowLeaveGroup} style={{ color: "red" }}>Forlat kollektivet</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </Col>
-                            </Row>
-                        </Card.Title>
-                        <hr />
-                        <ul className="member-list">
-                            {this.props.group.members.map((user, key) =>
-                                <li key={key}>
-                                    <a className="a-user" href={"mailto:" + user.email}>
-                                        {user.first_name ? `${user.first_name} ${user.last_name}` : user.email}</a>
-                                </li>
-                            )}
-                        </ul>
-                        <AddMemberModal show={this.state.showAddMember} handleClose={this.toggleShowAddMember} getGroup={this.props.getGroup} />
-                        <LeaveGroupModal show={this.state.showLeaveGroup} handleClose={this.toggleShowLeaveGroup} getGroup={this.props.getGroup} group={this.props.group} />
-                    </Card.Body>
-                </Card>
+                {this.props.group ? <GroupCard group={this.props.group} getGroup={this.props.getGroup} /> : <AddGroup getGroup={this.props.getGroup} />}
             </div>
         )
     }

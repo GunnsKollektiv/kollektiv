@@ -26,10 +26,14 @@ export default class Header extends Component {
                     <Navbar.Toggle onClick={() => this.setState({ expanded: this.state.expanded ? false : "expanded" })} />
                     <Navbar.Collapse>
                         <Nav className="mr-auto" onSelect={this.closeNav}>
-                            <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/">Hjem</NavLink>
-                            <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/group">Mitt kollektiv</NavLink>
-                            <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/lists">Lister</NavLink>
-                            <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/game">Spill</NavLink>
+                            <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/">Mitt kollektiv</NavLink>
+
+                            {this.props.group && (
+                                <>
+                                    <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/lists">Lister</NavLink>
+                                    <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/game">Spill</NavLink>
+                                </>
+                            )}
                         </Nav>
                         <span style={{ padding: "0px 20px" }}>
                             Velkommen, {this.props.user.first_name || this.props.user.email}

@@ -4,12 +4,11 @@ import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { get, post } from './api';
 import './App.css';
 import Login from './components/auth/Login';
-import Header from './components/header/Header';
-import Home from './components/home/Home';
-import Lists from './components/lists/Lists';
 import Error404 from './components/error/Error404';
-import Group from './components/group/Group';
 import Game from './components/game/Game';
+import Group from './components/group/Group';
+import Header from './components/header/Header';
+import Lists from './components/lists/Lists';
 
 class App extends Component {
 
@@ -24,7 +23,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.checkToken()
+    this.checkToken(true)
   }
 
   componentDidUpdate(prevProps) {
@@ -37,7 +36,7 @@ class App extends Component {
     this.props.history.push(pathname)
   }
 
-  checkToken = () => {
+  checkToken = (checkGroup = false) => {
     // check if user has an active token in local storage
     if (localStorage.getItem('token')) {
       this.setState({ token: localStorage.getItem('token') })
@@ -45,8 +44,9 @@ class App extends Component {
         url: 'api/auth/user/',
         callback: data => {
           this.setState({ user: data, loading: false })
-          this.getGroup()      
-      },
+          if (checkGroup)
+            this.getGroup()
+        },
         errorCallback: error => this.setState({ user: null, loading: false })
       })
     } else {
@@ -63,57 +63,67 @@ class App extends Component {
   handleLogout = () => {
     post({
       url: 'api/auth/logout/',
-      callback: data => this.updateUser(null, null)
+      callback: data => {
+        this.updateUser(null, null)
+        this.props.history.push("/")
+      }
     })
   }
 
   getGroup = () => {
+    this.setState({ loading: true })
     get({
       url: 'api/group/details/',
       callback: this.getGroupCallback,
-      errorCallback: error => this.setState({ group: null })
+      errorCallback: error => this.setState({ group: null, loading: false })
     })
   }
 
   getGroupCallback = data => {
-    this.setState({ group: data })
+    this.setState({ group: data, loading: false })
   }
 
   render() {
+    return (
+      <div className="App">
 
-    if (!this.state.loading) {
-      return (
-        <div className="App">
+        <Header
+          handleRedirect={this.handleRedirect}
+          user={this.state.user}
+          handleLogout={this.handleLogout}
+          group={this.state.group}
+        />
 
-          <Header handleRedirect={this.handleRedirect} user={this.state.user} handleLogout={this.handleLogout} />
-
+        {!this.state.loading && (
           <div className="main-content">
             <Switch>
               <Route exact path="/login">
                 {this.state.user === null ? <Login updateUser={this.updateUser} /> : <Redirect to='/' />}
               </Route>
               <PrivateRoute exact path="/" isAuthenticated={this.state.user !== null}>
-                <Home user={this.state.user} />
+                <Group group={this.state.group} getGroup={this.getGroup} />
               </PrivateRoute>
-              <PrivateRoute exact path="/lists" isAuthenticated={this.state.user !== null}>
-                <Lists user={this.state.user} />
-              </PrivateRoute>
-              <PrivateRoute exact path="/group" isAuthenticated={this.state.user !== null}>
-                <Group user={this.state.user} group={this.state.group} getGroup={this.getGroup} />
-              </PrivateRoute>
-              <PrivateRoute exact path="/game" isAuthenticated={this.state.user !== null}>
-                <Game />
-              </PrivateRoute>
+
+              {this.state.group && (
+                <>
+                  <PrivateRoute exact path="/lists" isAuthenticated={this.state.user !== null}>
+                    <Lists user={this.state.user} />
+                  </PrivateRoute>
+                  <PrivateRoute exact path="/game" isAuthenticated={this.state.user !== null}>
+                    <Game />
+                  </PrivateRoute>
+                </>
+              )}
+
               <Route path="*">
                 <Error404 />
               </Route>
             </Switch>
-          </div>
+          </div>)}
 
-        </div>
-      );
-    }
-    return "Loading...";
+      </div>
+    );
+
   }
 }
 

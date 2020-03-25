@@ -58,73 +58,71 @@ class Login extends Component {
     render() {
 
         return (
-            <div style={{ padding: 20 }}>
-                <Card className="login-card">
-                    <Card.Body>
-                        <Card.Title>{this.state.register ? "Registrer ny bruker" : "Logg inn"}</Card.Title>
-                        <Form onSubmit={this.handleSubmit}>
+            <Card className="login-card">
+                <Card.Body>
+                    <Card.Title>{this.state.register ? "Registrer ny bruker" : "Logg inn"}</Card.Title>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Group>
+                            <Form.Control
+                                type="email"
+                                name="email"
+                                placeholder="E-postadresse"
+                                required
+                                onChange={e => this.setState({ email: e.target.value })}
+                            />
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Control
+                                type="password"
+                                name="password"
+                                placeholder="Passord"
+                                required
+                                onChange={e => this.setState({ password: e.target.value })}
+                            />
+                        </Form.Group>
+                        {this.state.register ? (
                             <Form.Group>
-                                <Form.Control
-                                    type="email"
-                                    name="email"
-                                    placeholder="E-postadresse"
-                                    required
-                                    onChange={e => this.setState({ email: e.target.value })}
-                                />
+                                <Form.Row>
+                                    <Col>
+                                        <Form.Control
+                                            type="text"
+                                            name="fname"
+                                            placeholder="Fornavn"
+                                            required
+                                            onChange={e => this.setState({ first_name: e.target.value })}
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Form.Control
+                                            type="text"
+                                            name="lname"
+                                            placeholder="Etternavn"
+                                            required
+                                            onChange={e => this.setState({ last_name: e.target.value })}
+                                        />
+                                    </Col>
+                                </Form.Row>
                             </Form.Group>
-                            <Form.Group>
-                                <Form.Control
-                                    type="password"
-                                    name="password"
-                                    placeholder="Passord"
-                                    required
-                                    onChange={e => this.setState({ password: e.target.value })}
-                                />
-                            </Form.Group>
-                            {this.state.register ? (
-                                <Form.Group>
-                                    <Form.Row>
-                                        <Col>
-                                            <Form.Control
-                                                type="text"
-                                                name="fname"
-                                                placeholder="Fornavn"
-                                                required
-                                                onChange={e => this.setState({ first_name: e.target.value })}
-                                            />
-                                        </Col>
-                                        <Col>
-                                            <Form.Control
-                                                type="text"
-                                                name="lname"
-                                                placeholder="Etternavn"
-                                                required
-                                                onChange={e => this.setState({ last_name: e.target.value })}
-                                            />
-                                        </Col>
-                                    </Form.Row>
-                                </Form.Group>
-                            ) : null}
-                            <Form.Group>
-                                <Button type="submit" style={{ width: 150 }}>
-                                    {this.state.register ? "Registrer deg" : "Logg inn"}
-                                </Button>
-                                <Button
-                                    variant="link"
-                                    onClick={() => this.setState({ register: !this.state.register, message: null })}
-                                >
-                                    <small>
-                                        {this.state.register ? "Allerede registrert?" : "Registrer deg"}
-                                    </small>
-                                </Button>
-                            </Form.Group>
-                            <Form.Group>
-                                {this.showMessage()}
-                            </Form.Group>
-                        </Form>
-                    </Card.Body>
-                </Card>
-            </div>
+                        ) : null}
+                        <Form.Group>
+                            <Button type="submit" style={{ width: 150 }}>
+                                {this.state.register ? "Registrer deg" : "Logg inn"}
+                            </Button>
+                            <Button
+                                variant="link"
+                                onClick={() => this.setState({ register: !this.state.register, message: null })}
+                            >
+                                <small>
+                                    {this.state.register ? "Allerede registrert?" : "Registrer deg"}
+                                </small>
+                            </Button>
+                        </Form.Group>
+                        <Form.Group>
+                            {this.showMessage()}
+                        </Form.Group>
+                    </Form>
+                </Card.Body>
+            </Card>
         )
     }
 }
