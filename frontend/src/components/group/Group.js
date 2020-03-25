@@ -3,6 +3,7 @@ import { Card, Col, Dropdown, DropdownButton, Row } from 'react-bootstrap';
 import AddMemberModal from './AddMemberModal';
 import './style.scss';
 import LeaveGroupModal from './LeaveGroupModal';
+import settingsLogo from './settings-24px.svg'
 
 export default class Group extends Component {
 
@@ -31,11 +32,16 @@ export default class Group extends Component {
                                     <h2>{this.props.group.name}</h2>
                                 </Col>
                                 <Col className="dropdown-col">
-                                    <DropdownButton alignRight variant="secondary" title="">
-                                        <Dropdown.Item onClick={this.toggleShowAddMember}>Legg til medlem</Dropdown.Item>
-                                        <Dropdown.Divider />
-                                        <Dropdown.Item onClick={this.toggleShowLeaveGroup} style={{ color: "red" }}>Forlat kollektivet</Dropdown.Item>
-                                    </DropdownButton>
+                                    <Dropdown alignRight>
+                                        <Dropdown.Toggle>
+                                            <img src={settingsLogo} alt="settings" />
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item onClick={this.toggleShowAddMember}>Legg til medlem</Dropdown.Item>
+                                            <Dropdown.Divider />
+                                            <Dropdown.Item onClick={this.toggleShowLeaveGroup} style={{ color: "red" }}>Forlat kollektivet</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </Col>
                             </Row>
                         </Card.Title>
