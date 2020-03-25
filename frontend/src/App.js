@@ -9,6 +9,7 @@ import Home from './components/home/Home';
 import Lists from './components/lists/Lists';
 import Error404 from './components/error/Error404';
 import Group from './components/group/Group';
+import Game from './components/game/Game';
 
 class App extends Component {
 
@@ -17,7 +18,8 @@ class App extends Component {
     this.state = {
       loading: true,
       user: null,
-      token: null
+      token: null,
+      group: null
     }
   }
 
@@ -31,13 +33,20 @@ class App extends Component {
     }
   }
 
+  handleRedirect = pathname => {
+    this.props.history.push(pathname)
+  }
+
   checkToken = () => {
     // check if user has an active token in local storage
     if (localStorage.getItem('token')) {
       this.setState({ token: localStorage.getItem('token') })
       get({
         url: 'api/auth/user/',
-        callback: data => this.setState({ user: data, loading: false }),
+        callback: data => {
+          this.setState({ user: data, loading: false })
+          this.getGroup()      
+      },
         errorCallback: error => this.setState({ user: null, loading: false })
       })
     } else {
@@ -48,6 +57,7 @@ class App extends Component {
   updateUser = (user, token) => {
     localStorage.setItem('token', token);
     this.setState({ user: user, token: token })
+    this.getGroup();
   }
 
   handleLogout = () => {
@@ -57,8 +67,16 @@ class App extends Component {
     })
   }
 
-  handleRedirect = pathname => {
-    this.props.history.push(pathname)
+  getGroup = () => {
+    get({
+      url: 'api/group/details/',
+      callback: this.getGroupCallback,
+      errorCallback: error => this.setState({ group: null })
+    })
+  }
+
+  getGroupCallback = data => {
+    this.setState({ group: data })
   }
 
   render() {
@@ -81,7 +99,10 @@ class App extends Component {
                 <Lists user={this.state.user} />
               </PrivateRoute>
               <PrivateRoute exact path="/group" isAuthenticated={this.state.user !== null}>
-                <Group user={this.state.user} />
+                <Group user={this.state.user} group={this.state.group} getGroup={this.getGroup} />
+              </PrivateRoute>
+              <PrivateRoute exact path="/game" isAuthenticated={this.state.user !== null}>
+                <Game />
               </PrivateRoute>
               <Route path="*">
                 <Error404 />

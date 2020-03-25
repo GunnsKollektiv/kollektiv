@@ -29,6 +29,7 @@ export default class Header extends Component {
                             <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/">Hjem</NavLink>
                             <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/group">Mitt kollektiv</NavLink>
                             <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/lists">Lister</NavLink>
+                            <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/game">Spill</NavLink>
                         </Nav>
                         <span style={{ padding: "0px 20px" }}>
                             Velkommen, {this.props.user.first_name || this.props.user.email}
