@@ -1,5 +1,7 @@
 const SERVER_HOST = "http://127.0.0.1:8000/"
 
+
+
 function _fetch(method, kwargs) {
 
     let { url, body, token = localStorage.getItem('token'), callback, errorCallback } = kwargs
@@ -18,23 +20,45 @@ function _fetch(method, kwargs) {
         throw Error("Unknown method");
     }
 
+    let status;
+    let statusText;
+
     fetch(SERVER_HOST + url, {
         method: method,
         headers: headers,
         body: JSON.stringify(body)
     })
         .then(response => {
-            if (response.status >= 400 && response.status < 600) {
-                if (errorCallback !== undefined)
-                    errorCallback(method + " " + response.status + " error")
-                throw Error(method + " " + response.status + " error")
-            }
-            if (response.status === 204) {
+            status = response.status;
+            statusText = response.statusText
+
+            if (status === 204) {
                 return "No content"
             }
+
             return response.json()
         })
-        .then(data => callback(data))
+        .then(data => {
+            if (status >= 400) {
+                let details;
+                if (data instanceof Array)
+                    details = data[0];
+                else if (data instanceof Object)
+                    details = data[Object.keys(data)[0]][0];
+                else
+                    details = data;
+                if (errorCallback !== undefined)
+                    errorCallback({
+                        status: status,
+                        statusText: statusText,
+                        details: details
+                    });
+                else
+                    throw Error(data)
+            } else {
+                callback(data);
+            }
+        })
         .catch(error => console.log(error))
 }
 
