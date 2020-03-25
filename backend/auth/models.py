@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from group.models import CustomGroup
+
 # https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#substituting-a-custom-user-model
 # https://www.fomfus.com/articles/how-to-use-email-as-username-for-django-authentication-removing-the-username
 
@@ -46,3 +48,12 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+    def has_group(self):
+        return len(self.groups.all()) > 0
+
+    def get_group(self):
+        if self.has_group():
+            id = self.groups.first().id
+            return CustomGroup.objects.get(id=id)
+        return None
