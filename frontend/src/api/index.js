@@ -1,4 +1,4 @@
-const SERVER_HOST = "http://127.0.0.1:8000/"
+const SERVER_HOST = "http://192.168.10.195:8000/"
 
 
 
