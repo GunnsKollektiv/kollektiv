@@ -43,7 +43,7 @@ class App extends Component {
       get({
         url: 'api/auth/user/',
         callback: data => {
-          this.setState({ user: data, loading: false })
+          this.setState({ user: data })
           if (checkGroup)
             this.getGroup()
         },
@@ -112,7 +112,7 @@ class App extends Component {
         />
 
         {!this.state.loading && (
-          
+
           <div className="main-content">
             <Switch>
               <Route exact path="/login">
@@ -133,8 +133,8 @@ class App extends Component {
               </Route>
             </Switch>
           </div>
-          
-          )}
+
+        )}
 
       </div>
     );

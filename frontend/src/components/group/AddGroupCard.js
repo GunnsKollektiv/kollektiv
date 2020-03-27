@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Alert, Button, Card, Form, InputGroup } from 'react-bootstrap';
 import { post } from '../../api';
 
-export default class AddGroup extends Component {
+export default class AddGroupCard extends Component {
 
     constructor(props) {
         super(props);

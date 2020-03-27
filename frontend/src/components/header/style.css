@@ -1,6 +1,10 @@
 .header {
+  position: fixed;
   background: rgb(40, 44, 52);
   height: 76px;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
 }
 
 .navbar {
