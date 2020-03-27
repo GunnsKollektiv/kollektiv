@@ -83,6 +83,23 @@ class App extends Component {
     this.setState({ group: data, loading: false })
   }
 
+  PrivateRoute = ({ children, ...props }) => {
+    return (
+      <Route
+        {...props}
+        render={({ location }) => {
+          if (this.state.user !== null) {
+            if (!this.state.group && props.path !== "/") {
+              return <Redirect to="/" />
+            }
+            return children
+          }
+          return <Redirect to={{ pathname: "/login", state: { from: location } }} />
+        }}
+      />
+    );
+  }
+
   render() {
     return (
       <div className="App">
@@ -100,20 +117,15 @@ class App extends Component {
               <Route exact path="/login">
                 {this.state.user === null ? <Login updateUser={this.updateUser} /> : <Redirect to='/' />}
               </Route>
-              <PrivateRoute exact path="/" isAuthenticated={this.state.user !== null}>
+              <this.PrivateRoute exact path="/">
                 <Group group={this.state.group} getGroup={this.getGroup} />
-              </PrivateRoute>
-
-              {this.state.group && (
-                <>
-                  <PrivateRoute exact path="/lists" isAuthenticated={this.state.user !== null}>
-                    <Lists user={this.state.user} />
-                  </PrivateRoute>
-                  <PrivateRoute exact path="/game" isAuthenticated={this.state.user !== null}>
-                    <Game />
-                  </PrivateRoute>
-                </>
-              )}
+              </this.PrivateRoute>
+              <this.PrivateRoute exact path="/lists">
+                <Lists user={this.state.user} />
+              </this.PrivateRoute>
+              <this.PrivateRoute exact path="/game">
+                <Game />
+              </this.PrivateRoute>
 
               <Route path="*">
                 <Error404 />
@@ -127,24 +139,6 @@ class App extends Component {
   }
 }
 
-function PrivateRoute({ children, isAuthenticated, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        isAuthenticated ? (
-          children
-        ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: location }
-              }}
-            />
-          )
-      }
-    />
-  );
-}
+
 
 export default withRouter(App);
