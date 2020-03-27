@@ -53,7 +53,7 @@ export default class Header extends Component {
         return (
             <div className="header">
                 <Navbar fixed="top" variant="dark" expand="lg" expanded={this.state.expanded}>
-                    <Navbar.Brand className="brand" onClick={() => this.props.handleRedirect("/")}><h2>Kollektiv</h2></Navbar.Brand>
+                    <Navbar.Brand className="brand" onClick={() => this.props.redirect("/")}><h2>Kollektiv</h2></Navbar.Brand>
                     {this.renderNavContent()}
                 </Navbar>
             </div>

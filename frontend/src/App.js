@@ -32,7 +32,7 @@ class App extends Component {
     }
   }
 
-  handleRedirect = pathname => {
+  redirect = pathname => {
     this.props.history.push(pathname)
   }
 
@@ -105,13 +105,14 @@ class App extends Component {
       <div className="App">
 
         <Header
-          handleRedirect={this.handleRedirect}
+          redirect={this.redirect}
           user={this.state.user}
           handleLogout={this.handleLogout}
           group={this.state.group}
         />
 
         {!this.state.loading && (
+          
           <div className="main-content">
             <Switch>
               <Route exact path="/login">
@@ -131,7 +132,9 @@ class App extends Component {
                 <Error404 />
               </Route>
             </Switch>
-          </div>)}
+          </div>
+          
+          )}
 
       </div>
     );
