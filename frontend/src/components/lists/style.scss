@@ -1,5 +1,39 @@
 .list-container {
   .card {
-    min-width: 200px;
+    max-width: 600px;
+  }
+
+  @media (min-width: 500px) {
+    .card {
+      min-width: 400px;
+    }
+  }
+
+  ul {
+    padding: 0px 20px;
+  }
+
+  li {
+    list-style-type: none;
+    padding: 10px 5px 1px 5px;
+    border-bottom: thin solid lightgray;
+  }
+
+  .remove-item {
+    color: rgba(255, 0, 0, 0.712);
+  }
+
+  .remove-item:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  .add-item {
+    border: none;
+    width: 100%;
+  }
+
+  .add-item:focus {
+    outline: 0;
   }
 }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Card, Col, Dropdown, Row } from 'react-bootstrap';
 import AddMemberModal from './AddMemberModal';
 import LeaveGroupModal from './LeaveGroupModal';
-import settingsLogo from './settings-24px.svg';
 import './style.scss';
 
 export default class GroupCard extends Component {
@@ -31,7 +30,7 @@ export default class GroupCard extends Component {
                             <Col className="dropdown-col">
                                 <Dropdown alignRight>
                                     <Dropdown.Toggle>
-                                        <img src={settingsLogo} alt="settings" />
+                                        <i className="fas fa-cog fa-lg" style={{ color: "black" }}></i>
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={this.toggleShowAddMember}>Legg til medlem</Dropdown.Item>
@@ -48,17 +47,17 @@ export default class GroupCard extends Component {
                             <ul className="member-list">
                                 {this.props.group.members.map((user, key) =>
                                     <li key={key}>
+                                        <i className="fas fa-user-circle" /><span> </span>
                                         <a className="a-user" href={"mailto:" + user.email}>
-                                            {user.first_name ? `${user.first_name} ${user.last_name}` : user.email}</a>
+                                            {user.first_name ? `${user.first_name} ${user.last_name}` : user.email}
+                                        </a>
                                     </li>
                                 )}
                             </ul>
                             <AddMemberModal show={this.state.showAddMember} handleClose={this.toggleShowAddMember} getGroup={this.props.getGroup} />
                             <LeaveGroupModal show={this.state.showLeaveGroup} handleClose={this.toggleShowLeaveGroup} getGroup={this.props.getGroup} group={this.props.group} />
                         </Col>
-                        <Col>
-                            yo
-                            </Col>
+
                     </Row>
                 </Card.Body>
             </Card>

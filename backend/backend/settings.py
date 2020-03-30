@@ -46,7 +46,8 @@ INSTALLED_APPS = [
 
     # local apps
     'auth',
-    'group'
+    'group',
+    'list'
 ]
 
 MIDDLEWARE = [
