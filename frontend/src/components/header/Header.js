@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Button, Nav, Navbar } from 'react-bootstrap';
+import { Dropdown, Nav, Navbar } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import './style.css';
+import './style.scss';
 
 export default class Header extends Component {
 
@@ -30,18 +30,22 @@ export default class Header extends Component {
 
                             {this.props.group && (
                                 <>
+                                    <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/calendar">Kalender</NavLink>
                                     <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/lists">Lister</NavLink>
                                     <NavLink onClick={() => this.setState({ expanded: false })} exact className="nav-link" to="/game">Spill</NavLink>
                                 </>
                             )}
                         </Nav>
-                        <span style={{ padding: "0px 20px" }}>
-                            Velkommen, {this.props.user.first_name || this.props.user.email}
-                        </span>
-                        <Button
-                            variant="outline-light"
-                            onClick={() => this.props.handleLogout()}
-                        >Logg ut</Button>
+
+                        <Dropdown className="user-dropdown">
+                            <Dropdown.Toggle className="user-dropdown-toggle" id="dropdown-basic">
+                                {this.props.user.first_name || this.props.user.email} <i className="fas fa-lg fa-user-circle"></i>
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item onClick={() => this.props.handleLogout()}>Logg ut</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     </Navbar.Collapse>
                 </Fragment>
             )

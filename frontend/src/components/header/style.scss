@@ -1,0 +1,36 @@
+.header {
+  position: fixed;
+  background: rgb(40, 44, 52);
+  height: 76px;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+
+  .navbar {
+    color: white;
+    background: rgb(40, 44, 52);
+    max-width: 1390px;
+    margin: auto;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .navbar-collapse {
+    margin-left: auto;
+  }
+
+  .brand:hover {
+    cursor: pointer;
+  }
+
+  @media (min-width: 1000px) {
+    .dropdown-menu {
+      right: 0;
+      left: auto;
+    }
+  }
+  .user-dropdown-toggle {
+    background: none !important;
+    border: none;
+  }
+}

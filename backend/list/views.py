@@ -39,7 +39,7 @@ class ListItemsRetrieveAPI(views.APIView):
                 'items': items
             })
 
-        return Response(lists)
+        return Response(lists if len(lists) > 0 else None)
 
 
 class ListItemCreateAPI(generics.GenericAPIView):
